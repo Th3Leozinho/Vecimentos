@@ -33,16 +33,18 @@ def enviar_telegram(mensagem):
     except Exception as e:
         print(f'Erro ao enviar mensagem: {e}')
 
-def checar_e_avisar():
-    print(f"[LOG] Executando checagem em {datetime.datetime.now()}")
+def checar_e_avisar(log_uma_vez=False):
     hoje = datetime.date.today()
     agora = datetime.datetime.now()
     venc_spotify = proximo_vencimento(spotify_renovacao, spotify_frequencia)
     venc_iptv = proximo_vencimento(iptv_renovacao, iptv_frequencia)
 
+    if log_uma_vez:
+        print(f"[LOG] Executando checagem em {agora}")
+        print(f"[LOG] Próximo vencimento Spotify: {venc_spotify}")
+        print(f"[LOG] Próximo vencimento IPTV: {venc_iptv}")
+
     # Spotify: avisa somente no dia do vencimento anual, e apenas uma vez às 09h00
-    print(f"[LOG] Próximo vencimento Spotify: {venc_spotify}")
-    print(f"[LOG] Próximo vencimento IPTV: {venc_iptv}")
     if hoje == venc_spotify:
         if agora.hour == 9 and agora.minute == 0:
             print("[LOG] Enviando aviso do Spotify para o Telegram")
@@ -70,6 +72,7 @@ def checar_e_avisar():
 if __name__ == '__main__':
     import time
     print("[LOG] Iniciando loop principal do aviso de vencimentos...")
+    checar_e_avisar(log_uma_vez=True)  # Exibe logs principais só uma vez
     while True:
         checar_e_avisar()
         time.sleep(5)  # Espera 5 segundos
