@@ -3,6 +3,6 @@ services:
   app:
     build: .
     container_name: aviso_vencimentos
-    command: python aviso_vencimentos.py
+    command: python -u aviso_vencimentos.py
     # volumes removido para evitar sobrescrever arquivos do container
     working_dir: /app
