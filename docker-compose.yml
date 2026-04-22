@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    container_name: aviso_vencimentos
+    command: python aviso_vencimentos.py
+    volumes:
+      - .:/app
+    working_dir: /app
